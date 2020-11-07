@@ -1,0 +1,21 @@
+FROM Ubuntu 18.04.2 LTS
+MAINTAINER example@gmail.com 
+
+RUN apt-get update 
+
+RUN apt-get install –y nginx:stabe
+FROM nginx
+COPY static-html-directory /usr/share/nginx/html
+docker build -t some-content-nginx .
+docker run --name some-nginx -d some-content-nginx
+docker run --name some-nginx -d -p 8080:80 some-content-nginx
+
+RUN apt-get install -y prom:prometheus
+mkdir -p $GOPATH/src/github.com/prometheus
+cd PATH/src/github.com/prometheus
+git clone https://github.com/prometheus/prometheus.git
+cd prometheus
+make build
+./prometheus -config.file=your_config.yml
+
+CMD [“echo”,”Image created”] 
